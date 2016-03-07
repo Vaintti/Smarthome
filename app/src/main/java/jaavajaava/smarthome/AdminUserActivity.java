@@ -1,67 +1,79 @@
 package jaavajaava.smarthome;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.List;
 
 public class AdminUserActivity extends AppCompatActivity {
 
-    Button estates, remove, change;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_user);
+        setContentView(R.layout.activity_user);
 
-        String[] actions = {"Manage Estates", "Remove User", "Profit???"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, actions);
-
-        // Defining buttons
-        estates = (Button) findViewById(R.id.manageEstates);
-        change = (Button) findViewById(R.id.passwordChange);
-        remove = (Button) findViewById(R.id.removeUser);
-
-        // Adding onclick listeners to buttons
-        estates.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        change.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(AdminUserActivity.this).setTitle("Remove user?").setMessage("Do you really want to remove the user?").setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                }).setIcon(android.R.drawable.ic_dialog_alert).show();
-            }
-        });
+        listView = (ListView)findViewById(R.id.userView);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+        new AdminAsyncTask().execute();
+    }
+
+    private class AdminAsyncTask extends AsyncTask<Void, Void, Cursor> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Cursor cursor) {
+            super.onPostExecute(cursor);
+
+            EstateCursorAdapter adapter = new EstateCursorAdapter(getApplicationContext(), cursor, 0);
+            listView.setAdapter(adapter);
+        }
+
+        @Override
+        protected Cursor doInBackground(Void... params) {
+            SmarthomeOpenHelper db = new SmarthomeOpenHelper(getApplicationContext());
+            return db.getEstates();
+        }
+    }
+
+    public class EstateCursorAdapter extends CursorAdapter {
+        public EstateCursorAdapter(Context context, Cursor cursor, int flags) {
+            super(context, cursor, 0);
+        }
+
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            return LayoutInflater.from(context).inflate(R.layout.item_user, parent, false);
+        }
+
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
+            TextView tvName = (TextView) view.findViewById(R.id.estateNameView);
+            TextView tvAddress = (TextView) view.findViewById(R.id.estateAddressView);
+
+            String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+            String address = cursor.getString(cursor.getColumnIndexOrThrow("address"));
+
+            tvName.setText(name);
+            tvAddress.setText(address);
+        }
+    };
 }

@@ -23,11 +23,16 @@ public class SmarthomeOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_USER_TABLE = "CREATE TABLE users ( " +
+        String CREATE_USERS_TABLE = "CREATE TABLE users ( " +
                 KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 KEY_NAME + " TEXT, " +
                 KEY_PASSWORD + " TEXT )";
-        db.execSQL(CREATE_USER_TABLE);
+        String CREATE_ESTATES_TABLE = "CREATE TABLE estates ( " +
+                KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                KEY_NAME + " TEXT, " +
+                KEY_ADDRESS + " TEXT )";
+        db.execSQL(CREATE_USERS_TABLE);
+        db.execSQL(CREATE_ESTATES_TABLE);
     }
 
     @Override
@@ -36,15 +41,17 @@ public class SmarthomeOpenHelper extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
-    // Users table name
+    // Table names
     private static final String TABLE_USERS = "users";
+    private static final String TABLE_ESTATES = "estates";
 
     // Users table column names
     private static final String KEY_ID = "_id";
     private static final String KEY_NAME = "name";
     private static final String KEY_PASSWORD = "password";
+    private static final String KEY_ADDRESS = "address";
 
-    private static final String[] COLUMNS = {KEY_ID,KEY_NAME,KEY_PASSWORD};
+    private static final String[] USERS_COLUMNS = {KEY_ID,KEY_NAME,KEY_PASSWORD};
 
     public void addUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -63,7 +70,7 @@ public class SmarthomeOpenHelper extends SQLiteOpenHelper {
 
         Cursor cursor =
                 db.query(TABLE_USERS,
-                        COLUMNS,
+                        USERS_COLUMNS,
                         KEY_ID + "=? ",
                         new String[]{String.valueOf(id)},
                         null,
@@ -148,6 +155,18 @@ public class SmarthomeOpenHelper extends SQLiteOpenHelper {
     public Cursor getUsernames() {
         Cursor cursor = getReadableDatabase().query(TABLE_USERS,
                 new String[] {KEY_ID, KEY_NAME},
+                null,
+                null,
+                null,
+                null,
+                null);
+
+        return cursor;
+    }
+
+    public Cursor getEstates() {
+        Cursor cursor = getReadableDatabase().query(TABLE_ESTATES,
+                new String[] {KEY_ID, KEY_NAME, KEY_ADDRESS},
                 null,
                 null,
                 null,

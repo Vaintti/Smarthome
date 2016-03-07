@@ -47,7 +47,7 @@ public class AdminAddUserActivity extends AppCompatActivity {
         protected Void doInBackground(String... params) {
             String name = params[0];
             String pass = params[1];
-            UsersOpenHelper db = new UsersOpenHelper(getApplicationContext());
+            SmarthomeOpenHelper db = new SmarthomeOpenHelper(getApplicationContext());
             User user = new User(name, pass);
             db.addUser(user);
             return null;

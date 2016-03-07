@@ -36,6 +36,8 @@ public class AdminActivity extends AppCompatActivity {
         listView = (ListView)findViewById(R.id.userList);
         createUser = (Button) findViewById(R.id.openAddUser);
 
+        /*
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -51,6 +53,7 @@ public class AdminActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        */
     }
 
     @Override
@@ -76,8 +79,7 @@ public class AdminActivity extends AppCompatActivity {
 
         @Override
         protected Cursor doInBackground(Void... params) {
-            UsersOpenHelper db = new UsersOpenHelper(getApplicationContext());
-            //Log.d(TAG, db.getUsernames().toString());
+            SmarthomeOpenHelper db = new SmarthomeOpenHelper(getApplicationContext());
             return db.getUsernames();
         }
     }

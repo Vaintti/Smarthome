@@ -9,21 +9,24 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="jaavajaava.smarthome.AdminActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add User"
-        android:id="@+id/openAddUser"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/userList"
-        android:layout_above="@+id/openAddUser"
         android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addUserButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:elevation="1dp"
+        android:maxWidth="100dp"
+        android:maxHeight="100dp"
+        android:background="#00ffffff"
+        android:adjustViewBounds="false"
+        android:longClickable="true"
+        android:src="@drawable/addbutton" />
 </RelativeLayout>
