@@ -18,15 +18,13 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/addUserButton"
+        android:id="@+id/addButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:src="@drawable/addbutton"
         android:elevation="1dp"
-        android:maxWidth="100dp"
-        android:maxHeight="100dp"
-        android:background="#00ffffff"
-        android:adjustViewBounds="false"
-        android:longClickable="true"
-        android:src="@drawable/addbutton" />
+        android:clickable="true"
+        android:background="#00ffffff" />
+
 </RelativeLayout>

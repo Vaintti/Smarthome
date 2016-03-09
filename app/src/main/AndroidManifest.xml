@@ -16,11 +16,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".AdminActivity" />
-        <activity android:name=".AdminUserActivity" />
         <activity android:name=".AdminEstateActivity" />
         <activity android:name=".AdminCreateUser" />
         <activity android:name=".AdminAddUserActivity" />
-        <activity android:name=".UserActivity"></activity>
+        <activity android:name=".UserActivity" />
+        <activity android:name=".AdminAddEstateActivity" />
+        <activity android:name=".AdminUserActivity"></activity>
     </application>
 
 </manifest>

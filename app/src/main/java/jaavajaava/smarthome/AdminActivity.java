@@ -7,13 +7,17 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,7 +28,7 @@ public class AdminActivity extends AppCompatActivity {
 
     private static final String TAG = "AdminActivity";
     ListView listView;
-    Button createUser;
+    ImageButton createUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +38,7 @@ public class AdminActivity extends AppCompatActivity {
         //new AdminAsyncTask().execute();
 
         listView = (ListView)findViewById(R.id.userList);
-        createUser = (Button) findViewById(R.id.openAddUser);
-
-        /*
+        createUser = (ImageButton) findViewById(R.id.addButton);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -53,7 +55,6 @@ public class AdminActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        */
     }
 
     @Override

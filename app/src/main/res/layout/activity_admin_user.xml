@@ -12,5 +12,16 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/userView" />
+        android:id="@+id/adminEstateList"
+        android:headerDividersEnabled="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addEstateButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/addbutton"
+        android:background="#00ffffff" />
 </RelativeLayout>
