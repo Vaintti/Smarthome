@@ -1,6 +1,7 @@
 package jaavajaava.smarthome;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import java.util.List;
 public class UserActivity extends AppCompatActivity {
 
     ListView listView;
+    long uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,8 @@ public class UserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user);
 
         listView = (ListView)findViewById(R.id.userView);
+        Intent intent = getIntent();
+        uid = intent.getLongExtra("EXTRA_UID", 0);
     }
 
     @Override
@@ -50,7 +54,7 @@ public class UserActivity extends AppCompatActivity {
         @Override
         protected Cursor doInBackground(Void... params) {
             SmarthomeOpenHelper db = new SmarthomeOpenHelper(getApplicationContext());
-            return db.getEstates();
+            return db.getUserEstates(uid);
         }
     }
 
@@ -61,7 +65,7 @@ public class UserActivity extends AppCompatActivity {
 
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            return LayoutInflater.from(context).inflate(R.layout.item_user, parent, false);
+            return LayoutInflater.from(context).inflate(R.layout.item_estate, parent, false);
         }
 
         @Override
@@ -69,8 +73,8 @@ public class UserActivity extends AppCompatActivity {
             TextView tvName = (TextView) view.findViewById(R.id.estateNameView);
             TextView tvAddress = (TextView) view.findViewById(R.id.estateAddressView);
 
-            String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-            String address = cursor.getString(cursor.getColumnIndexOrThrow("address"));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(SmarthomeContract.Estate.COLUMN_NAME_ESTATENAME));
+            String address = cursor.getString(cursor.getColumnIndexOrThrow(SmarthomeContract.Estate.COLUMN_NAME_ADDRESS));
 
             tvName.setText(name);
             tvAddress.setText(address);

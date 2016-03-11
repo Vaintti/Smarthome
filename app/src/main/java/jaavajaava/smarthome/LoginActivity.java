@@ -1,6 +1,7 @@
 package jaavajaava.smarthome;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +13,6 @@ import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = "Database";
     EditText name;
     EditText pass;
     Button sign;
@@ -34,23 +34,27 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
+    private class LoginAsyncTask extends AsyncTask<String, Void, Cursor> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            Log.d(TAG, aBoolean.booleanValue()+"");
-            if(name.getText().toString().equals("admin") && pass.getText().toString().equals("admin")) {
-                Intent i = new Intent(LoginActivity.this, AdminActivity.class);
-                startActivity(i);
-            }
-            else if(aBoolean.booleanValue()) {
-                Intent i = new Intent(LoginActivity.this, UserActivity.class);
-                startActivity(i);
+        protected void onPostExecute(Cursor aCursor) {
+            super.onPostExecute(aCursor);
+
+            if(aCursor.moveToFirst()) {
+                if(aCursor.getString(aCursor.getColumnIndex(SmarthomeContract.User.COLUMN_NAME_USERNAME)).equals("admin")) {
+                    Intent i = new Intent(LoginActivity.this, AdminActivity.class);
+                    i.putExtra("EXTRA_UID", aCursor.getLong(aCursor.getColumnIndex(SmarthomeContract.User._ID)));
+                    startActivity(i);
+                }
+                else {
+                    Intent i = new Intent(LoginActivity.this, UserActivity.class);
+                    i.putExtra("EXTRA_UID", aCursor.getLong(aCursor.getColumnIndex(SmarthomeContract.User._ID)));
+                    startActivity(i);
+                }
             }
             else {
                 Toast.makeText(LoginActivity.this, "Please check your login info.", Toast.LENGTH_LONG).show();
@@ -58,15 +62,12 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Boolean doInBackground(String... params) {
+        protected Cursor doInBackground(String... params) {
             String username = params[0];
             String password = params[1];
             SmarthomeOpenHelper db = new SmarthomeOpenHelper(getApplicationContext());
-            if(db.getAllUsers().size() == 0) {
-                User user = new User("admin", "admin");
-                db.addUser(user);
-            }
-            return db.foundFromDatabase(username, password);
+
+            return db.getUserWithPassword(username, password);
         }
     }
 }

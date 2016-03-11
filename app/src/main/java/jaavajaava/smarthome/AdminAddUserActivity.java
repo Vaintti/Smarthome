@@ -48,8 +48,7 @@ public class AdminAddUserActivity extends AppCompatActivity {
             String name = params[0];
             String pass = params[1];
             SmarthomeOpenHelper db = new SmarthomeOpenHelper(getApplicationContext());
-            User user = new User(name, pass);
-            db.addUser(user);
+            db.addUser(name, pass);
             return null;
         }
     }
